@@ -9,3 +9,6 @@ element14 Path to Programmable III support repository
 
 # Blog 3
 [P2P3 AMD Zynq-7000 SoC XADC. External Multiplexer Mode.](https://community.element14.com/challenges-projects/design-challenges/pathprogrammable3/b/blog/posts/p2p3-amd-zynq-7000-soc-xadc-external-multiplexer-mode)
+
+# Blog 4
+[P2P3 AMD Vivado Cascaded Integrator Comb (CIC) Compiler. PDM Microphone to PCM Decimation](https://community.element14.com/challenges-projects/design-challenges/pathprogrammable3/b/blog/posts/p2p3-amd-vivado-cascaded-integrator-comb-cic-compiler-pdm-microphone-to-pcm-decimation)
