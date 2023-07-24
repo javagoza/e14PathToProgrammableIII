@@ -14,4 +14,4 @@ element14 Path to Programmable III support repository
 [P2P3 AMD Vivado Cascaded Integrator Comb (CIC) Compiler. PDM Microphone to PCM Decimation](https://community.element14.com/challenges-projects/design-challenges/pathprogrammable3/b/blog/posts/p2p3-amd-vivado-cascaded-integrator-comb-cic-compiler-pdm-microphone-to-pcm-decimation)
 
 # Blog 5
-[https://community.element14.com/challenges-projects/design-challenges/pathprogrammable3/b/blog/posts/p2p3-wireless-sensors-on-the-avnet-minized-getting-started-with-petalinux](P2P3 Wireless sensors on the Avnet Minized. Getting Started with PetaLinux)
+[P2P3 Wireless sensors on the Avnet Minized. Getting Started with PetaLinux](https://community.element14.com/challenges-projects/design-challenges/pathprogrammable3/b/blog/posts/p2p3-wireless-sensors-on-the-avnet-minized-getting-started-with-petalinux)
