@@ -15,3 +15,6 @@ element14 Path to Programmable III support repository
 
 # Blog 5
 [P2P3 Wireless sensors on the Avnet Minized. Getting Started with PetaLinux](https://community.element14.com/challenges-projects/design-challenges/pathprogrammable3/b/blog/posts/p2p3-wireless-sensors-on-the-avnet-minized-getting-started-with-petalinux)
+
+# Final Project
+[AMD Zynq SoC MIDI Vintage Sound Synthesizer](https://community.element14.com/challenges-projects/design-challenges/pathprogrammable3/b/blog/posts/amd-zynq-soc-midi-vintage-sound-synthesizer)
