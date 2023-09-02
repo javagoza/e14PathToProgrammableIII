@@ -1,0 +1,25 @@
+{
+  "version": "2022.2",
+  "applications": [],
+  "platforms": [],
+  "systems": [
+    {
+      "name": "MiniZedSynth_system",
+      "platform": "C:/training/ZynqSoundSynthesizer/Software/ZynqSynthPlatform/export/ZynqSynthPlatform/ZynqSynthPlatform.xpfm",
+      "sysConfig": "ZynqSynthPlatform",
+      "buildConfig": "Debug",
+      "applications": [
+        {
+          "name": "MiniZedSynth",
+          "platform": "C:/training/ZynqSoundSynthesizer/Software/ZynqSynthPlatform/export/ZynqSynthPlatform/ZynqSynthPlatform.xpfm",
+          "platformPath": "C:\\training\\ZynqSoundSynthesizer\\Software\\ZynqSynthPlatform\\export\\ZynqSynthPlatform",
+          "sysConfig": "ZynqSynthPlatform",
+          "domain": "standalone_domain",
+          "system": "MiniZedSynth_system"
+        }
+      ],
+      "platformPath": "C:\\training\\ZynqSoundSynthesizer\\Software\\ZynqSynthPlatform\\export\\ZynqSynthPlatform"
+    }
+  ],
+  "others": []
+}
