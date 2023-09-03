@@ -33,8 +33,25 @@ module filter (
     output logic [15:0] pcm_out
     );
     
-    // bypass filter
-    assign pcm_out = pcm_in ;
+    logic [15:0] lpf_pcm_out;
+
+    
+    moving_average_lpf lpf_uut(
+        .clk(clk),
+        .reset(reset),
+        .order(cutoff_freq),
+        .signal_in(pcm_in),
+        .signal_out(lpf_pcm_out)
+    );
+    
+        
+    always begin
+        if (eg_amount >0) begin
+            pcm_out = lpf_pcm_out;
+        end else begin
+           pcm_out = pcm_in ; // bypass
+       end  
+    end
     
     
 endmodule

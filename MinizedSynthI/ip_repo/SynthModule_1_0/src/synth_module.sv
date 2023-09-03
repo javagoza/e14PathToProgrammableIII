@@ -121,9 +121,13 @@ module synth_module #(PHASE_ACC_WIDTH = 30)(
     
     // amplifier ADSR amplitude output
      logic [15:0] adsra_amp;
+     logic [15:0] adsra_rt_amp;
+     logic [15:0] adsra_selected;
      
      // filter ADSR amplitude output
      logic [15:0] adsrf_amp;
+     logic [15:0] adsrf_rt_amp;
+     logic [15:0] adsrf_selected;
     
     // Amplifier outputs
     logic [15:0] amp_pcm_out;
@@ -136,6 +140,11 @@ module synth_module #(PHASE_ACC_WIDTH = 30)(
     logic [PHASE_ACC_WIDTH-1:0] lfof_extended;
     
     logic adsrf_idle;
+    logic adsrf_rt_idle;
+    logic adsrf_nrt_idle;
+    
+    logic adsra_rt_idle;
+    logic adsra_nrt_idle;
     
     
 //    // Keep The range is from 0.01Hz to 100Hz
@@ -233,6 +242,20 @@ module synth_module #(PHASE_ACC_WIDTH = 30)(
         .pcm_out(mix_pcm_out)
         );
         
+     // if sustain time is  32'hffff_fff select real time mode ADSR   
+     always_comb begin 
+       if (adsra_st == 32'hffff_ffff) begin
+            adsra_selected = adsra_rt_amp;
+            adsrf_selected = adsrf_rt_amp;
+       end else begin
+            adsra_selected = adsra_amp;
+            adsrf_selected = adsrf_amp;
+       end
+     end   
+     
+     assign adsra_idle = adsra_nrt_idle & adsra_rt_idle & adsrf_nrt_idle & adsrf_rt_idle;
+
+        
      // instantiate amplifier ADSR amplitude generator
       adsr adsra(
           .clk(clk),
@@ -244,7 +267,20 @@ module synth_module #(PHASE_ACC_WIDTH = 30)(
           .release_step_value(adsra_r),  // precalculated (A_sus - 0)/(t_release - t_sys) steps fot the release segment
           .sustain_time(adsra_st), // tsustain / t_sys steps for the sustain
           .envelope(adsra_amp),
-          .adsr_idle(adsra_idle)
+          .adsr_idle(adsra_nrt_idle)
+          );
+          
+      // instantiate amplifier ADSR real time mode amplitude generator
+      adsr_rt adsra_rt(
+          .clk(clk),
+          .reset(reset),
+          .start(adsra_start), // g adsr sustain active when start asserted
+          .attack_step_value(adsra_a), // precalculated (Amax - 0)/(t_attack - t_sys) steps for the attack segment
+          .decay_step_value(adsra_d),  // precalculated (A_max-A_sus) / (t_sustain / t_sys) steps for the decay segment
+          .sustain_level(adsra_sl), // amplitude for the sustain segment
+          .release_step_value(adsra_r),  // precalculated (A_sus - 0)/(t_release - t_sys) steps fot the release segment
+          .envelope(adsra_rt_amp),
+          .adsr_idle(adsra_rt_idle)
           );
           
 //      // instantiate filter ADSR amplitude generator
@@ -258,7 +294,19 @@ module synth_module #(PHASE_ACC_WIDTH = 30)(
           .release_step_value(adsrf_r),  // precalculated (A_sus - 0)/(t_release - t_sys) steps fot the release segment
           .sustain_time(adsrf_st), // tsustain / t_sys steps for the sustain
           .envelope(adsrf_amp),
-          .adsr_idle(adsrf_idle)
+          .adsr_idle(adsrf_nrt_idle)
+          );
+          
+     adsr_rt adsrf_rt(
+          .clk(clk),
+          .reset(reset),
+          .start(adsrf_start), // adsr sustain active when start asserted
+          .attack_step_value(adsrf_a), // precalculated (Amax - 0)/(t_attack - t_sys) steps for the attack segment
+          .decay_step_value(adsrf_d),  // precalculated (A_max-A_sus) / (t_sustain / t_sys) steps for the decay segment
+          .sustain_level(adsrf_sl), // amplitude for the sustain segment
+          .release_step_value(adsrf_r),  // precalculated (A_sus - 0)/(t_release - t_sys) steps fot the release segment
+          .envelope(adsrf_rt_amp),
+          .adsr_idle(adsrf_rt_idle)
           );
         
       // instantiate Amplifier
@@ -266,7 +314,7 @@ module synth_module #(PHASE_ACC_WIDTH = 30)(
           .clk(clk),
           .reset(reset),
           .pcm_input(mix_pcm_out),
-          .envelope(adsra_amp),
+          .envelope(adsra_selected),
           .pcm_out(amp_pcm_out));
           
 //      // instantiate filter
@@ -278,7 +326,7 @@ module synth_module #(PHASE_ACC_WIDTH = 30)(
           .cutoff_freq(fcut),
           .resonance_lvl(fres),
           .eg_amount(feg), //EG AMOUNT Determines how much the Filter Envelope Generator (EG) adds to or subtracts from the Filter Cutoff control setting.
-          .envelope(adsrf_amp),
+          .envelope(adsrf_rt_amp),
           .modulation(lfof_output),
           .pcm_out(filter_pcm_out)
       );
